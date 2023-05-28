@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+    <gresource prefix="/valagl">
+        <file>shaders/fragment.glsl</file>
+        <file>shaders/vertex.glsl</file>
+    </gresource>
+</gresources>

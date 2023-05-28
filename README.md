@@ -1,15 +1,22 @@
 # ValaGL
 
-A skeletal Vala application using modern OpenGL 3.x. No legacy pipeline.
+Fork of [Maia-Everett/valagl](https://github.com/Maia-Everett/valagl)
 
-It sets up a fullscreen SDL window and displays a colored rotating cube.
+* Refactored & Rewriten to meson build system
+* Fixed warnings
+* Loading shaders with [GLib.Resource](https://valadoc.org/gio-2.0/GLib.Resource.html)
 
-## Building and running under Ubuntu
+![Screenshot](./result.png)
 
-```
-sudo apt-get install libepoxy-dev libsdl2-dev cmake valac valadoc
-mkdir bin
-cd bin; cmake ..; cd ..
-make -C bin
-bin/valagl
-```
+## Installation
+
+#### Dependencies
+* libsdl2
+* libepoxy
+* glib
+
+#### Build manualy
+
+    $ meson setup --prefix=/usr build
+    $ cd build
+    $ ninja install
