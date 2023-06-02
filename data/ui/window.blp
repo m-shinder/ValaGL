@@ -1,0 +1,60 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $ValaGLWindow : Adw.ApplicationWindow {
+    title: "ValaGL";
+    default-width: 900;
+    default-height: 800;
+    
+    Gtk.Box {
+        orientation: vertical;
+        
+        Adw.HeaderBar {
+            [end]
+            ToggleButton toggle_pane_button {
+                icon-name: "sidebar-show-symbolic";
+                active: false;
+            }
+        }
+        
+        Adw.Flap flap {
+            reveal-flap: bind-property toggle_pane_button.active bidirectional;
+            flap-position: end;
+            
+            [flap]
+            Box {
+                margin-start: 10;
+                margin-top: 10;
+                width-request: 150;
+                orientation: vertical;
+                
+                Box {
+                    orientation: horizontal;
+                    
+                    Switch autorender {
+                        active: true;
+                    }
+                    
+                    Text {
+                        text: "Autorender";
+                    }
+                }
+            }
+            
+            [content]
+            Gtk.GLArea area {
+                resize => $on_resize();
+                render => $on_render();
+                realize => $on_realize();
+                
+                auto-render: true;
+                has-depth-buffer: true;
+                has-stencil-buffer: true;
+                
+                hexpand: true;
+                vexpand: true;
+            }
+        }
+    }
+}
+

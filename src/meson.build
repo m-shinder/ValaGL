@@ -2,8 +2,9 @@ valagl_deps = [
     dependency('glib-2.0'),
     dependency('gobject-2.0'),
     dependency('gio-2.0'),
-    dependency('gl'),
-    dependency('sdl2'),
+    dependency('gtk4'),
+    dependency('libadwaita-1'),
+    dependency('gl')
 ]
 
 valagl_sources = [
@@ -24,7 +25,7 @@ valagl_sources = [
 executable('valagl',
     valagl_resources,
     valagl_sources,
-    vala_args: '--target-glib=2.58',
+    vala_args: [ '--target-glib=2.58', '--gresourcesdir=data/' ],
     dependencies: valagl_deps,
     link_args : ['-lepoxy', '-lm' ],
     install: true,
