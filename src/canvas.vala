@@ -69,7 +69,7 @@ namespace ValaGL {
         private GLint unif_transform;
         private GLint attr_coord3d;
         private GLint attr_v_color;
-        private GLfloat rotation_angle;
+        public ArcballCamera arc_camera = new ArcballCamera();
         
         /**
          * Instantiates a new canvas object.
@@ -157,8 +157,8 @@ namespace ValaGL {
             
             Vec3 translation = Vec3.from_data(0, 0, -4);
             GeometryUtil.translate(ref model_matrix, ref translation);
-            Vec3 rotation = Vec3.from_data(0, 1, 0);
-            GeometryUtil.rotate(ref model_matrix, rotation_angle, ref rotation);
+            
+            GeometryUtil.rotate(ref model_matrix, arc_camera.angle, ref arc_camera.rotational_axis);
             
             // Activate our vertex and fragment shaders for the next drawing operations
             gl_program.make_current();
@@ -178,16 +178,104 @@ namespace ValaGL {
             glDisableVertexAttribArray(attr_coord3d);
             glDisableVertexAttribArray(attr_v_color);
         }
+    }
+    
+    public struct Quaternion {
+        public float cosine;
+        public Vec3 axis;
+    }
+    
+    public class ArcballCamera {
+        public Vec3 position = Vec3.from_data(0, 0, -3);
+        public Vec3 start_pos = Vec3.from_data(0, 0, 0);
+        public Vec3 current_pos = Vec3.from_data(0, 0, 0);
+        public Vec3 start_pos_unit_vector;
+        public Vec3 current_pos_unit_vector;
         
-        /**
-         * Updates the scene data.
-         * 
-         * In this application, the only variable scene data is the rotation angle.
-         * 
-         * @param rotation_angle The new rotation angle (in degrees)
-         */
-        public void update_scene_data(GLfloat rotation_angle) {
-            this.rotation_angle = rotation_angle;
+        public Quaternion current_quaternion;
+        public Quaternion last_quaternion = { 0, Vec3.from_data(1, 0, 0) };
+        
+        public float cos_value;
+        public float cos_value_2;
+        public float theta;
+        public float angle = 180;
+        public Vec3 rotational_axis = Vec3.from_data(1, 0, 0);
+        public Vec3 rotational_axis_2;
+        
+        public void rotation() {
+            start_pos_unit_vector = get_unit_vector(start_pos);
+            current_pos_unit_vector = get_unit_vector(current_pos);
+            current_quaternion.axis = start_pos.cross_product(ref current_pos);
+            current_quaternion.axis = get_unit_vector(current_quaternion.axis);
+            
+            cos_value = dot_product(); //q0 is cosine of the angle here.
+            if(cos_value > 1) cos_value = 1; // when dot product gives '1' as result, it doesn't equal to 1 actually. It equals to just like 1.00000000001 . 
+            theta = (float) (Math.acos(cos_value) * 180 / 3.1416); //theta is the angle now.
+            current_quaternion.cosine = (float) Math.cos((theta / 2) * 3.1416 / 180); //currentQuaternion.cosine is cos of half the angle now.
+
+            current_quaternion.axis.x = (float) (current_quaternion.axis.x * Math.sin((theta / 2) * 3.1416 / 180));
+            current_quaternion.axis.y = (float) (current_quaternion.axis.y * Math.sin((theta / 2) * 3.1416 / 180));
+            current_quaternion.axis.z = (float) (current_quaternion.axis.z * Math.sin((theta / 2) * 3.1416 / 180));
+            
+            cos_value_2 = (current_quaternion.cosine * last_quaternion.cosine)
+                                 - current_quaternion.axis.dot_product(ref last_quaternion.axis);
+            
+            
+            Vec3 temporary_vector = current_quaternion.axis.cross_product(ref last_quaternion.axis);
+            
+            rotational_axis_2.x = (current_quaternion.cosine * last_quaternion.axis.x) + 
+                                    (last_quaternion.cosine * current_quaternion.axis.x ) +
+                                    temporary_vector.x;
+
+            rotational_axis_2.y = (current_quaternion.cosine * last_quaternion.axis.y) + 
+                                    (last_quaternion.cosine * current_quaternion.axis.y ) +
+                                    temporary_vector.y;
+
+            rotational_axis_2.z = (current_quaternion.cosine * last_quaternion.axis.z) + 
+                                    (last_quaternion.cosine * current_quaternion.axis.z ) +
+                                    temporary_vector.z;
+            
+            angle = (float) (Math.acos(cos_value_2) * 180 / 3.1416) * 2;
+
+            rotational_axis.x = (float) (rotational_axis_2.x / Math.sin((angle / 2) * 3.1416 / 180));
+            rotational_axis.y = (float) (rotational_axis_2.y / Math.sin((angle / 2) * 3.1416 / 180));
+            rotational_axis.z = (float) (rotational_axis_2.z / Math.sin((angle / 2) * 3.1416 / 180));
+        }
+        
+        public float dot_product() {
+            return (start_pos_unit_vector.x * current_pos_unit_vector.x) + (start_pos_unit_vector.y * current_pos_unit_vector.y) + (start_pos_unit_vector.z * current_pos_unit_vector.z);
+        }
+        
+        public void replace() {
+            last_quaternion.cosine = cos_value_2;
+            last_quaternion.axis = rotational_axis_2;
+        }
+        
+        public float z_axis(float x, float y) {
+            float z = 0; 
+            if (Math.sqrt((x * x) + (y * y)) <= 1)
+                z = (float) Math.sqrt((1 * 1) - (x * x) - (y * y)); 
+            return z;
+        }
+        
+        public Vec3 get_unit_vector(Vec3 vector) {
+            float magnitude;
+            Vec3 unit_vector = Vec3.from_data(0, 0, 0);
+            
+            magnitude = (vector.x * vector.x) + (vector.y * vector.y) + (vector.z * vector.z);
+            magnitude = (float) Math.sqrt(magnitude);
+            
+            if (magnitude == 0) {
+                unit_vector.x = 0;
+                unit_vector.y = 0;
+                unit_vector.z = 0;
+            } else {
+                unit_vector.x = vector.x / magnitude;
+                unit_vector.y = vector.y / magnitude;
+                unit_vector.z = vector.z / magnitude;
+            }
+            
+            return unit_vector;
         }
     }
 }

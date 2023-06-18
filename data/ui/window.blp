@@ -1,7 +1,7 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $ValaGLWindow : Adw.ApplicationWindow {
+template $ValaGLMainWindow : Adw.ApplicationWindow {
     title: "ValaGL";
     default-width: 900;
     default-height: 800;
@@ -23,9 +23,12 @@ template $ValaGLWindow : Adw.ApplicationWindow {
             
             [flap]
             Box {
-                margin-start: 10;
-                margin-top: 10;
-                width-request: 150;
+                margin-start: 8;
+                margin-end: 8;
+                margin-top: 8;
+                margin-bottom: 10;
+                width-request: 300;
+                spacing: 8;
                 orientation: vertical;
                 
                 Box {
@@ -53,6 +56,15 @@ template $ValaGLWindow : Adw.ApplicationWindow {
                 
                 hexpand: true;
                 vexpand: true;
+                
+                GestureClick click {
+                    pressed => $on_start_rotate();
+                    released => $on_stop_rotate();
+                }
+                
+                EventControllerMotion {
+                    motion => $on_rotate();
+                }
             }
         }
     }

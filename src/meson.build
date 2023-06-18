@@ -11,6 +11,9 @@ valagl_sources = [
     'app.vala',
     'app-error.vala',
     'canvas.vala',
+    'main.vala',
+    
+    'ui/main-window.vala',
     
     'core/camera.vala',
     'core/core-error.vala',

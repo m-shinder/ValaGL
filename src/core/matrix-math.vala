@@ -123,6 +123,7 @@ namespace ValaGL.Core {
          */
         public GLfloat x {
             get { return data[0]; }
+            set { data[0] = value; }
         }
         
         /**
@@ -130,6 +131,7 @@ namespace ValaGL.Core {
          */
         public GLfloat y {
             get { return data[1]; }
+            set { data[1] = value; }
         }
         
         /**
@@ -137,6 +139,7 @@ namespace ValaGL.Core {
          */
         public GLfloat z {
             get { return data[2]; }
+            set { data[2] = value; }
         }
     }
     
