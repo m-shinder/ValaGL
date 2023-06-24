@@ -7,7 +7,7 @@ valagl_deps = [
     dependency('gl')
 ]
 
-valagl_sources = [
+valagl_sources = files(
     'app.vala',
     'app-error.vala',
     'canvas.vala',
@@ -23,9 +23,11 @@ valagl_sources = [
     'core/matrix-math.vala',
     'core/vao.vala',
     'core/vbo.vala',
-]
+)
 
-executable('valagl',
+executable(
+    'valagl',
+    
     valagl_resources,
     valagl_sources,
     vala_args: [ '--target-glib=2.58', '--gresourcesdir=data/' ],
