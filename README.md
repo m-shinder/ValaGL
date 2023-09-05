@@ -1,6 +1,13 @@
 # ValaGL
 
+Differences from [SpikedPaladin/valaGL](https://github.com/SpikedPaladin/valaGL)
+
+* Refactored to use [m-shinder/libepoxy](https://github.com/m-shinder/libepoxy)
+* Fixed types for the sake of readability and type safety
+* Removed SDL references
+
 Fork of [Maia-Everett/valagl](https://github.com/Maia-Everett/valagl)
+
 
 * Refactored & Rewriten to meson build system
 * Fixed warnings
@@ -11,8 +18,7 @@ Fork of [Maia-Everett/valagl](https://github.com/Maia-Everett/valagl)
 ## Installation
 
 #### Dependencies
-* libsdl2
-* libepoxy
+* libepoxy-vala
 * glib
 
 #### Build manualy

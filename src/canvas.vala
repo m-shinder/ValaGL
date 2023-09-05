@@ -54,7 +54,7 @@ namespace ValaGL {
      * The OpenGL canvas associated with the application main window.
      * 
      * This class is responsible for initializing the state of the OpenGL context
-     * and managing resize and redraw events sent by the underlying SDL window.
+     * and managing resize and redraw events sent by the underlying GLArea widget.
      */
     public class Canvas : Object {
         private GLProgram gl_program;
@@ -129,7 +129,7 @@ namespace ValaGL {
         /**
          * Handler of the window resize event.
          * 
-         * It is called for the first time when the SDL window is created and shown,
+         * It is called for the first time when the GLArea widget is created and shown,
          * and then every time the display resolution changes.
          * 
          * Responsible for setting up the viewport size and perspective projection.
