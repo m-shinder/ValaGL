@@ -80,15 +80,15 @@ namespace ValaGL {
          * used for rendering.
          */
         public Canvas() throws AppError {
-            glEnable(GL_DEBUG_OUTPUT);
+            glEnable(DEBUG_OUTPUT);
             glDebugMessageCallback(on_gl_error);
             
             // GL initialization comes here
             glClearColor(71.0f/255, 95.0f/255, 121.0f/255, 1);
-            glEnable(GL_MULTISAMPLE);
-            glEnable(GL_DEPTH_TEST);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glEnable(MULTISAMPLE);
+            glEnable(DEPTH_TEST);
+            glEnable(BLEND);
+            glBlendFunc(SRC_ALPHA, ONE_MINUS_SRC_ALPHA);
             
             try {
                 gl_program = new GLProgram(
@@ -122,7 +122,7 @@ namespace ValaGL {
         
         private void on_gl_error(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, string message) {
             stderr.printf("GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
-                ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ),
+                ( type == DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ),
                 type, severity, message );
         }
         
@@ -150,7 +150,7 @@ namespace ValaGL {
          * Responsible for drawing the OpenGL scene.
          */
         public void paint_gl() {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClear(COLOR_BUFFER_BIT | DEPTH_BUFFER_BIT);
             
             // Compute current transformation matrix for the cube
             model_matrix = Mat4.identity();
@@ -174,7 +174,7 @@ namespace ValaGL {
             element_ibo.make_current();
             
             // Draw the cube
-            glDrawElements(GL_TRIANGLES, cube_elements.length, GL_UNSIGNED_SHORT, null);
+            glDrawElements(TRIANGLES, cube_elements.length, UNSIGNED_SHORT, null);
             glDisableVertexAttribArray(attr_coord3d);
             glDisableVertexAttribArray(attr_v_color);
         }

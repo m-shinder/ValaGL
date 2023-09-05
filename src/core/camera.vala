@@ -66,7 +66,7 @@ namespace ValaGL.Core {
         public void apply(GLint uniform_id, ref Mat4 model_matrix) {
             total_matrix = result_matrix;
             total_matrix.mul_mat(ref model_matrix);
-            glUniformMatrix4fv(uniform_id, 1, (GLboolean) GL_FALSE, total_matrix.data);
+            glUniformMatrix4fv(uniform_id, 1, false, total_matrix.data);
         }
         
         /**

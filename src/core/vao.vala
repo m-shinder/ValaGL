@@ -29,7 +29,7 @@ namespace ValaGL.Core {
         public void register_vbo(VBO vbo, GLint attribute, GLsizei stride) {
             make_current();
             vbo.make_current();
-            glVertexAttribPointer(attribute, stride, GL_FLOAT, (GLboolean) GL_FALSE, 0, null);
+            glVertexAttribPointer(attribute, stride, FLOAT, false, 0, null);
         }
         
         /**

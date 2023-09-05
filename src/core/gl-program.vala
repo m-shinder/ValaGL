@@ -17,8 +17,8 @@ namespace ValaGL.Core {
          * @param fragment_shader_file The file to read the fragment shader from
          */
         public GLProgram(string vertex_shader_file, string fragment_shader_file) throws CoreError {
-            vertex_shader = create_shader_from_file(GL_VERTEX_SHADER, vertex_shader_file);
-            fragment_shader = create_shader_from_file(GL_FRAGMENT_SHADER, fragment_shader_file);
+            vertex_shader = create_shader_from_file(VERTEX_SHADER, vertex_shader_file);
+            fragment_shader = create_shader_from_file(FRAGMENT_SHADER, fragment_shader_file);
             
             prog_id = glCreateProgram();
             
@@ -29,10 +29,10 @@ namespace ValaGL.Core {
             glAttachShader(prog_id, fragment_shader);
             glLinkProgram(prog_id);
 
-            GLint[] link_ok = { GL_FALSE };
-            glGetProgramiv(prog_id, GL_LINK_STATUS, link_ok);
+            GLint[] link_ok = { false };
+            glGetProgramiv(prog_id, LINK_STATUS, link_ok);
             
-            if (link_ok[0] != GL_TRUE)
+            if (link_ok[0] != true)
                 throw new CoreError.SHADER_INIT("Cannot link GL program");
         }
         
@@ -98,16 +98,16 @@ namespace ValaGL.Core {
             glShaderSource(shader, 1, sourceArray, null);
             glCompileShader(shader);
             
-            GLint[] compile_ok = { GL_FALSE };
-            glGetShaderiv(shader, GL_COMPILE_STATUS, compile_ok);
+            GLint[] compile_ok = { false };
+            glGetShaderiv(shader, COMPILE_STATUS, compile_ok);
             
-            if (compile_ok[0] == GL_TRUE)
+            if (compile_ok[0] == true)
                 return shader;
             
             // Otherwise, there is an error.
             glDeleteShader(shader);
             
-            if (shader_type == GL_VERTEX_SHADER)
+            if (shader_type == VERTEX_SHADER)
                 throw new CoreError.SHADER_INIT("Error compiling vertex shader");
             else
                 throw new CoreError.SHADER_INIT("Error compiling fragment shader");

@@ -24,16 +24,16 @@ namespace ValaGL.Core {
                 throw new CoreError.VBO_INIT("Cannot allocate vertex buffer object");
             }
             
-            glBindBuffer(GL_ARRAY_BUFFER, id);
-            glBufferData(GL_ARRAY_BUFFER, data.length * sizeof(GLfloat), (GLvoid[]) data, GL_STATIC_DRAW);
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindBuffer(ARRAY_BUFFER, id);
+            glBufferData(ARRAY_BUFFER, data.length * sizeof(GLfloat), (GLvoid[]) data, STATIC_DRAW);
+            glBindBuffer(ARRAY_BUFFER, 0);
         }
         
         /**
          * Makes this VBO current for future drawing operations in the OpenGL context.
          */
         public void make_current() {
-            glBindBuffer(GL_ARRAY_BUFFER, id);
+            glBindBuffer(ARRAY_BUFFER, id);
         }
         
         /**
@@ -47,7 +47,7 @@ namespace ValaGL.Core {
          */
         public void apply_as_vertex_array(GLint attribute, GLsizei stride) {
             make_current();
-            glVertexAttribPointer(attribute, stride, GL_FLOAT, (GLboolean) GL_FALSE, 0, null);
+            glVertexAttribPointer(attribute, stride, FLOAT, false, 0, null);
         }
         
         ~VBO() {

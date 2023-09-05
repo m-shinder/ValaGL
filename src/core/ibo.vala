@@ -23,16 +23,16 @@ namespace ValaGL.Core {
             if (id == 0)
                 throw new CoreError.IBO_INIT("Cannot allocate index buffer object");
             
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.length * sizeof(GLushort), (GLvoid[]) data, GL_STATIC_DRAW);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            glBindBuffer(ELEMENT_ARRAY_BUFFER, id);
+            glBufferData(ELEMENT_ARRAY_BUFFER, data.length * sizeof(GLushort), (GLvoid[]) data, STATIC_DRAW);
+            glBindBuffer(ELEMENT_ARRAY_BUFFER, 0);
         }
         
         /**
          * Makes this IBO current for future drawing operations in the OpenGL context.
          */
         public void make_current() {
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
+            glBindBuffer(ELEMENT_ARRAY_BUFFER, id);
         }
         
         ~IBO() {
