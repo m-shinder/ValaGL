@@ -29,7 +29,7 @@ namespace ValaGL.Core {
             glAttachShader(prog_id, fragment_shader);
             glLinkProgram(prog_id);
 
-            GLint[] link_ok = { false };
+            GLboolean[] link_ok = { false };
             glGetProgramiv(prog_id, LINK_STATUS, link_ok);
             
             if (link_ok[0] != true)
@@ -75,7 +75,7 @@ namespace ValaGL.Core {
             glUseProgram(prog_id);
         }
         
-        private static GLuint create_shader_from_file(GLuint shader_type, string file_path) throws CoreError {
+        private static GLuint create_shader_from_file(ShaderType shader_type, string file_path) throws CoreError {
             try {
                 uint8[] file_contents;
                 
@@ -88,7 +88,7 @@ namespace ValaGL.Core {
             }
         }
         
-        private static GLuint create_shader_from_string(GLuint shader_type, string source) throws CoreError {
+        private static GLuint create_shader_from_string(ShaderType shader_type, string source) throws CoreError {
             var shader = glCreateShader(shader_type);
             
             if (shader == 0)
@@ -98,7 +98,7 @@ namespace ValaGL.Core {
             glShaderSource(shader, 1, sourceArray, null);
             glCompileShader(shader);
             
-            GLint[] compile_ok = { false };
+            GLboolean[] compile_ok = { false };
             glGetShaderiv(shader, COMPILE_STATUS, compile_ok);
             
             if (compile_ok[0] == true)

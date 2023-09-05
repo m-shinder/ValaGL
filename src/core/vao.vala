@@ -26,7 +26,7 @@ namespace ValaGL.Core {
         /**
          * Registers a VBO binding to the given shader attribute in this VAO.
          */
-        public void register_vbo(VBO vbo, GLint attribute, GLsizei stride) {
+        public void register_vbo(VBO vbo, GLuint attribute, GLsizei stride) {
             make_current();
             vbo.make_current();
             glVertexAttribPointer(attribute, stride, FLOAT, false, 0, null);

@@ -81,7 +81,7 @@ namespace ValaGL {
          */
         public Canvas() throws AppError {
             glEnable(DEBUG_OUTPUT);
-            glDebugMessageCallback(on_gl_error);
+            glDebugMessageCallback((GLDEBUGPROC)on_gl_error, null);
             
             // GL initialization comes here
             glClearColor(71.0f/255, 95.0f/255, 121.0f/255, 1);
@@ -120,7 +120,7 @@ namespace ValaGL {
             camera.look_at(ref eye, ref center, ref up);
         }
         
-        private void on_gl_error(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, string message) {
+        private void on_gl_error(DebugSource source, DebugType type, GLuint id, DebugSeverity severity, GLsizei length, string message) {
             stderr.printf("GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
                 ( type == DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ),
                 type, severity, message );
