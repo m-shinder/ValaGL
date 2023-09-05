@@ -8,10 +8,12 @@ project(
 
 pkg = import('pkgconfig')
 gnome = import('gnome')
+epoxy_proj = subproject('libepoxy-vala')
 
 # Load custom vapi files
+epoxy_vapidir = epoxy_proj.get_variable('epoxy_vapidir')
 add_project_arguments(
-    ['--vapidir', meson.current_source_dir() / 'vapi'],
+    ['--vapidir', epoxy_vapidir],
     language: 'vala'
 )
 
